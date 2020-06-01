@@ -11,6 +11,7 @@ var {XYZ} = ol.source;
 var VectorSource = ol.source.Vector;
 var VectorLayer = ol.layer.Vector;
 var EsriJSON = ol.format.EsriJSON;
+var {Fill, Stroke, Circle, Style} = ol.style;
 
 /*********************
  *  step 1: 建立圖框
@@ -85,7 +86,8 @@ var layerSource = new VectorSource({
 });
 
 var layer = new VectorLayer({
-    source: layerSource
+    source: layerSource,
+	style: styleMarker
 });
 
 map.addLayer(layer);
@@ -93,5 +95,86 @@ map.addLayer(layer);
 /********************************
  *  step 3: 設計符號 & 資訊視窗
  ********************************/
+/// 設計符號
+function styleMarker (feature, resolution) {
+	var type = feature.values_.f4;
+	
+	if (type === "蟲害")
+		return getStyle({ fillColor: "rgba(230, 0, 169, 0.5)" });
+	
+	else if (type === "病害")
+		return getStyle({ fillColor: "rgba(230, 152, 0, 0.5)" });
+	
+	else if (type === "生理性")
+		return getStyle({ fillColor: "rgba(0, 115, 76, 0.5)" });
+	
+	else
+		return getStyle({ fillColor: "rgba(71, 71, 71, 0.5)" });
+}
 
-};
+function getStyle (options) {
+	var styleOps = new Object();
+		styleOps.radius      = !(options.radius)? 8: options.radius;
+		styleOps.fillColor   = !(options.fillColor)? "rgba(71, 71, 71, 0.52)": options.fillColor;
+		styleOps.color       = !(options.color)? "#ffffff": options.fillColor;
+		styleOps.weight      = !(options.weight)? 1.5: options.weight;
+
+	var fill = new Fill({
+		color: styleOps.fillColor
+	});
+
+	var stroke = new Stroke({
+		color: styleOps.color,
+		width: styleOps.weight 
+	});
+
+	return new Style({
+		image: new Circle({ fill: fill, stroke: stroke, radius: styleOps.radius }),
+		fill: fill,
+		stroke: stroke
+	});
+}
+
+/// 設定資訊視窗
+var select = new ol.interaction.Select({
+	hitTolerance: 5,
+	multi: true,
+	condition: ol.events.condition.singleClick
+});
+map.addInteraction(select);
+
+var popup = new ol.Overlay.PopupFeature({
+	popupClass: 'default anim',
+	select: select,
+	canFix: true,
+	template: {
+		title: function(f) { return '案件編號: ' + f.get('f1'); },
+    	attributes: {
+			'f4': { title: '危害種類' },
+			'f5': { 
+				title: '案件連結',
+				format: function (value, f) {
+					return '<a href="' + value + '">更多資訊</a>'
+				} 
+			},
+			'f6': { 
+				title: '紀錄時間',
+				format: function (value, f) {
+					var time = new Date(value);
+					var timeStr = time.getFullYear() + '/' + time.getMonth() + '/' + time.getDate();
+
+					return timeStr;
+				} 
+			}
+    	}
+	}
+});
+map.addOverlay (popup);
+
+/********************************
+*  step 4: 主功能設計
+********************************/
+
+// 例如 圖層編輯, 查詢 ...
+
+}; // End of window.onload

@@ -31,18 +31,18 @@ function styleMarker (feature, latlng) {
 	var styleOps;
 
 	if (type === "蟲害")
-		styleOps = getStyle({ fillColor: "#e600a9" });
+		styleOps = getStyleOps({ fillColor: "#e600a9" });
 	else if (type === "病害")
-		styleOps = getStyle({ fillColor: "#e69800" });
+		styleOps = getStyleOps({ fillColor: "#e69800" });
 	else if (type === "生理性")
-		styleOps = getStyle({ fillColor: "#00734c" });
+		styleOps = getStyleOps({ fillColor: "#00734c" });
 	else
-		styleOps = getStyle({ fillColor: "#474747" });
+		styleOps = getStyleOps({ fillColor: "#474747" });
 
 	return L.circleMarker(latlng, styleOps);
 }
 
-function getStyle (options) {
+function getStyleOps (options) {
 	var styleOps = new Object();
 		styleOps.radius      = !(options.radius)? 8: options.radius;
 		styleOps.fill        =  (options.fill === undefined)? true: options.fill;
@@ -57,8 +57,6 @@ function getStyle (options) {
 }
 
 /// 設計資訊視窗
-
-
 layer.bindPopup(function (layer) {
 	var time = new Date(layer.feature.properties.f6);
 	
@@ -71,3 +69,9 @@ layer.bindPopup(function (layer) {
 
 	return L.Util.template(content, layer.feature.properties);
 });
+
+/********************************
+ *  step 4: 主功能設計
+ ********************************/
+
+ // 例如 圖層編輯, 查詢 ...

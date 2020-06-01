@@ -40,7 +40,7 @@ require([
 	/// 設計符號
 	var defaultSymbol = pointSymbol({
 		line: { width: 1.5, color: new Color([255, 255, 255, 1]) },
-		marker: { size: 14, color: new Color([71, 71, 71, 0.52]) }
+		marker: { size: 14, color: new Color([71, 71, 71, 0.5]) }
 	});
 	
 	var renderer = new UniqueValueRenderer(defaultSymbol, "f4");
@@ -48,21 +48,21 @@ require([
 			value: "蟲害",
 			symbol: pointSymbol({
 				line: { width: 1.5, color: new Color([255, 255, 255, 1]) },
-				marker: { size: 14, color: new Color([230, 0, 169, 0.52]) }
+				marker: { size: 14, color: new Color([230, 0, 169, 0.5]) }
 			})
 			});
 		renderer.addValue({
 			value: "病害",
 			symbol: pointSymbol({
 				line: { width: 1.5, color: new Color([255, 255, 255, 1]) },
-				marker: { size: 14, color: new Color([230, 152, 0, 0.52]) }
+				marker: { size: 14, color: new Color([230, 152, 0, 0.5]) }
 			})
 		});
 		renderer.addValue({
 			value: "生理性",
 			symbol: pointSymbol({
 				line: { width: 1.5, color: new Color([255, 255, 255, 1]) },
-				marker: { size: 14, color: new Color([0, 115, 76, 0.52]) }
+				marker: { size: 14, color: new Color([0, 115, 76, 0.5]) }
 			})
 		});
 
